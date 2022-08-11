@@ -66,7 +66,7 @@ async function getAllBlogposts() {
       // store the JSON response when promise resolves
       const response = await dato.json();
 
-      console.log(response);
+      // console.log(response);
 
       // handle DatoCMS errors
       if (response.errors) {
@@ -90,13 +90,15 @@ async function getAllBlogposts() {
   const blogpostsFormatted = blogposts.map((item) => {
     return {
       id: item.id,
-      title: item._allTitleLocales,
       publishedDate: item._firstPublishedAt,
-      slug: item._allSlugLocales.value,
+      title: item._allTitleLocales[1].value,
+      slug: item._allSlugLocales[1].value,
       thumb: item.image.url,
       thumbAlt: item.image.alt,
+      categorie: item.categorie,
     };
   });
+  console.log(blogpostsFormatted);
 
   // return formatted blogposts
   return blogpostsFormatted;
