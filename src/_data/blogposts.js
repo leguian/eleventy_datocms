@@ -14,6 +14,8 @@ async function getAllBlogposts() {
   // Blogposts array
   let blogposts = [];
 
+  const locale = 'fr';
+
   // make queries until makeNewQuery is set to false
     try {
       // initiate fetch
@@ -30,32 +32,20 @@ async function getAllBlogposts() {
             _allArticlesMeta {
               count
             }
-            allArticles {
+            allArticles(locale: ${locale}) {
               _status
               _firstPublishedAt
               id
-              _allTitleLocales {
-                locale
-                value
-              }
-              _allBodyLocales(markdown: true) {
-                locale
-                value
-              }
+              title
+              body(markdown: true)
               image {
                 id
                 alt
                 url
               }
-              _allSlugLocales {
-                locale
-                value
-              }
+              slug
               categorie {
-                _allTitleLocales {
-                  locale
-                  value
-                }
+                title
               }
             }
           }
@@ -91,11 +81,12 @@ async function getAllBlogposts() {
     return {
       id: item.id,
       publishedDate: item._firstPublishedAt,
-      title: item._allTitleLocales[1].value,
-      slug: item._allSlugLocales[1].value,
+      title: item.title,
+      slug: item.slug,
       thumb: item.image.url,
       thumbAlt: item.image.alt,
-      categorie: item.categorie,
+      body: item.body,
+      cat: item.categorie[0].title,
     };
   });
   console.log(blogpostsFormatted);

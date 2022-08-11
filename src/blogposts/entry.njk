@@ -1,0 +1,30 @@
+---
+pagination:
+    data: blogposts
+    size: 1
+    alias: blogpost
+permalink: blog/{{ blogpost.slug }}/index.html
+---
+{% extends "layouts/base.njk" %}
+{% set htmlTitle = blogpost.title %}
+{% block content %}
+    {# blogpost #}
+    <div class="div"><strong>Image</strong> : {{ blogpost.thumb }}<br>
+        <img src="{{ blogpost.thumb }}" style="max-width: 150px;" alt="{{ blogpost.thumbAlt }}"/>
+    </div>
+    <div class="div">
+        <strong>Titre</strong> : {{ blogpost.title }}
+    </div>
+    <div class="div"><strong>Catégorie(s)</strong> : {{ blogpost.cat }}</div>
+    <div class="div">
+        <strong>Date publication</strong> : {{ blogpost.date|date("DD/MM/Y") }}
+    </div>
+    <div class="div">
+        <strong>Contenu</strong> :
+        <div>
+            {{ blogpost.body | safe }}
+        </div>
+            <p><strong>Source html :</strong></p>
+        <pre style="border: 1px solid">{{ blogpost.body }}</pre>
+    </div>
+{% endblock %}
